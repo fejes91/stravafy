@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hu.adamfejes.stravafy">
-   <application
-        android:label="stravafy"
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:label="Stravafy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
