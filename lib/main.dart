@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stravafy/screens/main/map_screen.dart';
+import 'package:stravafy/di/injectable.dart';
+import 'package:stravafy/screens/map/map_screen.dart';
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 

@@ -1,46 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
+import 'package:injectable/injectable.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:stravafy/core/model/view_model.dart';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+@injectable
+class MapScreenVM extends ViewModel {
+  @factoryMethod
+  MapScreenVM();
 
-  @override
-  _MapScreenState createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stravafy'),
-      ),
-      body: FlutterMap(
-        options: MapOptions(
-          center: LatLng(47.509364, 19.128928),
-          zoom: 9,
-        ),
-        nonRotatedChildren: [],
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'hu.adamfejes.stravafy',
-          ),
-          PolylineLayer(
-            polylineCulling: true,
-            polylines: [
-              Polyline(
-                  points: _getPolylinePoints(),
-                  color: Colors.orange,
-                  strokeWidth: 5.0),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+  Stream<List<LatLng>> get polylines => Stream.value(_getPolylinePoints());
 
   List<LatLng> _getPolylinePoints() {
     const polylineString =
