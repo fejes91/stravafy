@@ -34,6 +34,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void onMapReady() {
+    // TODO duplicated subscription
     _polylineSubscription = _viewModel.polylines.listen((polylinePoints) {
       _adjustMap(polylinePoints);
     });
@@ -59,7 +60,7 @@ class _MapScreenState extends State<MapScreen> {
           center: LatLng(47.509364, 19.128928),
           zoom: 9,
         ),
-        nonRotatedChildren: [],
+        nonRotatedChildren: const [],
         children: [
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
