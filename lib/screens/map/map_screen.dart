@@ -3,9 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:stravafy/screens/map/map_screen_vm.dart';
+
+const colors = [
+  Colors.red,
+  Colors.green,
+  Colors.blue,
+  Colors.yellow,
+  Colors.amber,
+];
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -58,11 +65,11 @@ class _MapScreenState extends State<MapScreen> {
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             userAgentPackageName: 'hu.adamfejes.stravafy',
           ),
-          StreamBuilder<List<LatLng>>(
-            initialData: const <LatLng>[],
+          StreamBuilder<List<List<LatLng>>>(
+            initialData: null,
             stream: _viewModel.polylines,
-            builder: (context, polyline) {
-              return _getPolylineLayer(polyline.data!);
+            builder: (context, polylines) {
+              return _getPolylineLayer(polylines.data);
             },
           )
         ],
@@ -70,23 +77,30 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  PolylineLayer _getPolylineLayer(List<LatLng> polyline) {
+  PolylineLayer _getPolylineLayer(List<List<LatLng>>? polylines) {
     return PolylineLayer(
-      polylineCulling: true,
-      polylines: [
-        Polyline(
-          points: polyline,
-          color: Colors.red,
-          strokeWidth: 2.5,
-          borderStrokeWidth: 2.0,
-          borderColor: Colors.white,
-        ),
-      ],
-    );
+        polylineCulling: true,
+        polylines: polylines
+                ?.asMap()
+                .entries
+                .map(
+                  (entry) => Polyline(
+                    points: entry.value,
+                    color: colors[entry.key % colors.length],
+                    strokeWidth: 2.5,
+                    borderStrokeWidth: 2.0,
+                    borderColor: Colors.white,
+                  ),
+                )
+                .toList() ??
+            []);
   }
 
-  void _adjustMap(List<LatLng> points) {
-    _mapController.fitBounds(LatLngBounds.fromPoints(points),
+  void _adjustMap(List<List<LatLng>>? points) {
+    final mergedPolylines =
+        points?.reduce((value, element) => value..addAll(element)) ?? [];
+
+    _mapController.fitBounds(LatLngBounds.fromPoints(mergedPolylines),
         options: const FitBoundsOptions(padding: EdgeInsets.all(32)));
   }
 }
