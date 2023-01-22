@@ -19,6 +19,39 @@ class _StravaClient implements StravaClient {
   String? baseUrl;
 
   @override
+  Future<TokenApiModel> postTokenCode(
+    tokenCode, {
+    clientId = '53914',
+    clientSecret = 'a933481332a3a6cc34a7f2d64b1e5366d706e86c',
+    grantType = 'authorization_code',
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'code': tokenCode,
+      r'client_id': clientId,
+      r'client_secret': clientSecret,
+      r'grant_type': grantType,
+    };
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<TokenApiModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/oauth/token',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = TokenApiModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<List<ActivityApiModel>> refreshActivities() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

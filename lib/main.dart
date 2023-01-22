@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stravafy/di/injectable.dart';
-import 'package:stravafy/screens/map/map_screen.dart';
+import 'package:stravafy/screens/auth/auth_screen.dart';
 
 void main() {
   configureDependencies();
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const MapScreen(),
+      home: const AuthScreen(),
     );
   }
 }

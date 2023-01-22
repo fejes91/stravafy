@@ -10,5 +10,5 @@ class ActivityStoreImpl implements ActivityStore {
   ActivityStoreImpl(this._holder);
 
   @override
-  Stream<List<Activity>> getActivities() => _holder.activities;
+  Stream<List<Activity>> getActivities() => _holder.item;
 }

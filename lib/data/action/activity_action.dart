@@ -13,11 +13,15 @@ class ActivityActionImpl implements ActivityAction {
 
   @override
   Future<void> refreshActivities() async {
-    final activities = (await _client.refreshActivities())
-        .map((activityApiModel) => activityApiModel.toDomainModel())
-        .toList();
+    try {
+      final activities = (await _client.refreshActivities())
+          .map((activityApiModel) => activityApiModel.toDomainModel())
+          .toList();
 
-    _holder.setActivities(activities);
+      _holder.setItem(activities);
+    } catch (e) {
+      // todo error logging + handling
+    }
     return;
   }
 }
