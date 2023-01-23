@@ -13,19 +13,19 @@ class AuthScreenVM extends ViewModel {
   @factoryMethod
   AuthScreenVM(this._tokenAction, this._tokenStore);
 
-  Future<bool> get authenticated async =>
-      (await _tokenStore.getAccessToken()) != null;
+  Stream<bool> get authenticated =>
+      _tokenStore.getAccessToken().map((token) => token != null);
 
-  Future<bool> authenticate() async {
+  Future<void> authenticate() async {
     final result = await FlutterWebAuth.authenticate(
       url: stravaAuthUrl,
       callbackUrlScheme: stravaAuthRedirectScheme,
     );
 
-    return handleAuthCode(result);
+    handleAuthCode(result);
   }
 
-  bool handleAuthCode(String url) {
+  void handleAuthCode(String url) {
     final code = Uri.parse(url).queryParameters['code'];
 
     if (code != null) {
@@ -33,11 +33,8 @@ class AuthScreenVM extends ViewModel {
         _tokenAction.refresh(code);
       } catch (e) {
         // todo log
-        return false;
       }
-      return true;
     } else {
-      return false;
       // TODO error handling
     }
   }

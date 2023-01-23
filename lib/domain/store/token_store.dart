@@ -1,3 +1,3 @@
 abstract class TokenStore {
-  Future<String?> getAccessToken();
+  Stream<String?> getAccessToken();
 }

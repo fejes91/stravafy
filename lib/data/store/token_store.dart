@@ -9,5 +9,5 @@ class TokenStoreImpl extends TokenStore {
   TokenStoreImpl(this._tokenHolder);
 
   @override
-  Future<String?> getAccessToken() async => await _tokenHolder.item.first;
+  Stream<String?> getAccessToken() => _tokenHolder.item;
 }
