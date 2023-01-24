@@ -1,12 +1,12 @@
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 
-// TODO this doesn't have a buffer must be replaced with shared pref or database
 abstract class BaseHolder<T> {
-  final StreamController<T> _controller = StreamController<T>.broadcast();
+  final BehaviorSubject<T> _holder = BehaviorSubject<T>();
 
-  Stream<T> get item => _controller.stream.asBroadcastStream();
+  Stream<T> get item => _holder;
 
   void setItem(T item) {
-    _controller.add(item);
+    _holder.value = item;
   }
 }
