@@ -14,7 +14,7 @@ class AuthScreenVM extends ViewModel {
   AuthScreenVM(this._tokenAction, this._tokenStore);
 
   Stream<bool> get authenticated =>
-      _tokenStore.getAccessToken().map((token) => token != null);
+      _tokenStore.getAccessToken().map((token) => token?.isNotEmpty ?? false);
 
   Future<void> authenticate() async {
     final result = await FlutterWebAuth.authenticate(

@@ -1,13 +1,15 @@
 import 'package:injectable/injectable.dart';
-import 'package:stravafy/data/holder/token_holder.dart';
+import 'package:stravafy/data/database/stravafy_database.dart';
 import 'package:stravafy/domain/store/token_store.dart';
 
 @Injectable(as: TokenStore)
 class TokenStoreImpl extends TokenStore {
-  final TokenHolder _tokenHolder;
+  final StravafyDatabase _database;
 
-  TokenStoreImpl(this._tokenHolder);
+  TokenStoreImpl(this._database);
 
   @override
-  Stream<String?> getAccessToken() => _tokenHolder.item;
+  Stream<String?> getAccessToken() => _database.tokenDao.findToken().map(
+        (tokenDataModel) => tokenDataModel?.accessToken,
+      );
 }

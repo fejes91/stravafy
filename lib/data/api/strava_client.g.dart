@@ -21,8 +21,8 @@ class _StravaClient implements StravaClient {
   @override
   Future<TokenApiModel> postTokenCode(
     tokenCode, {
-    clientId = '53914',
-    clientSecret = 'a933481332a3a6cc34a7f2d64b1e5366d706e86c',
+    clientId = stravaClientId,
+    clientSecret = stravaClientSecret,
     grantType = 'authorization_code',
   }) async {
     const _extra = <String, dynamic>{};

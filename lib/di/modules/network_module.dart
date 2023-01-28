@@ -16,8 +16,6 @@ abstract class NetworkModule {
         onRequest:
             (RequestOptions options, RequestInterceptorHandler handler) async {
           if (needAuthHeader(options.uri)) {
-            print('!!!! faszom');
-            print('!!! token ${await tokenStore.getAccessToken().isEmpty}');
             options.headers['Authorization'] =
                 'Bearer ${await tokenStore.getAccessToken().first}';
           }
