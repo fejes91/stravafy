@@ -30,12 +30,16 @@ class AuthScreenVM extends ViewModel {
 
     if (code != null) {
       try {
-        _tokenAction.refresh(code);
+        _tokenAction.getToken(code);
       } catch (e) {
         // todo log
       }
     } else {
       // TODO error handling
     }
+  }
+
+  Future<bool> tryTokenRefresh() async {
+    return _tokenAction.refreshToken();
   }
 }

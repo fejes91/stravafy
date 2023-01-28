@@ -1,3 +1,4 @@
 abstract class TokenAction {
-  Future<void> refresh(String tokenCode);
+  Future<void> getToken(String tokenCode);
+  Future<bool> refreshToken();
 }

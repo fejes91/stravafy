@@ -85,7 +85,7 @@ class _$StravafyDatabase extends StravafyDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `TokenDataModel` (`id` INTEGER NOT NULL, `accessToken` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `TokenDataModel` (`id` INTEGER NOT NULL, `accessToken` TEXT NOT NULL, `refreshToken` TEXT NOT NULL, `expiresAt` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -109,7 +109,9 @@ class _$TokenDao extends TokenDao {
             'TokenDataModel',
             (TokenDataModel item) => <String, Object?>{
                   'id': item.id,
-                  'accessToken': item.accessToken
+                  'accessToken': item.accessToken,
+                  'refreshToken': item.refreshToken,
+                  'expiresAt': item.expiresAt
                 },
             changeListener);
 
@@ -124,8 +126,10 @@ class _$TokenDao extends TokenDao {
   @override
   Stream<TokenDataModel?> findToken() {
     return _queryAdapter.queryStream('SELECT * FROM TokenDataModel',
-        mapper: (Map<String, Object?> row) =>
-            TokenDataModel(row['accessToken'] as String),
+        mapper: (Map<String, Object?> row) => TokenDataModel(
+            accessToken: row['accessToken'] as String,
+            refreshToken: row['refreshToken'] as String,
+            expiresAt: row['expiresAt'] as int),
         queryableName: 'TokenDataModel',
         isView: false);
   }

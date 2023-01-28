@@ -20,4 +20,12 @@ abstract class StravaClient {
 
   @GET("/athlete/activities")
   Future<List<ActivityApiModel>> refreshActivities();
+
+  @POST("/oauth/token")
+  Future<TokenApiModel> refreshToken(
+    @Query("refresh_token") String refreshToken, {
+    @Query("client_id") String clientId = stravaClientId,
+    @Query("client_secret") String clientSecret = stravaClientSecret,
+    @Query("grant_type") String grantType = 'refresh_token',
+  });
 }

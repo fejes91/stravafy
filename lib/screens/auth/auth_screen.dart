@@ -27,6 +27,8 @@ class _AuthScreenState extends State<AuthScreen>
         _navigateToMap(Navigator.of(context));
       }
     });
+
+    _viewModel.tryTokenRefresh();
   }
 
   @override
