@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stravafy/di/injectable.dart';
 import 'package:stravafy/screens/auth/auth_screen.dart';
 
-void main() {
-  configureDependencies();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const MyApp());
 }
 

@@ -6,6 +6,6 @@ const mock = Environment('mock');
 const integration = Environment('integration');
 
 @InjectableInit()
-void configureDependencies() {
-  GetIt.instance.init();
+Future<void> configureDependencies() async {
+  await GetIt.instance.init();
 }
