@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -73,8 +72,12 @@ class _MapScreenState extends State<MapScreen> {
             .toList() ??
         [];
 
-    polylineLayers.add(polylineLayers[_selectedActivityIndex]);
-    polylineLayers.removeAt(_selectedActivityIndex);
+    if (polylineLayers.isNotEmpty &&
+        polylineLayers.length > _selectedActivityIndex) {
+      // put selected polyline layer to top
+      polylineLayers.add(polylineLayers[_selectedActivityIndex]);
+      polylineLayers.removeAt(_selectedActivityIndex);
+    }
 
     return PolylineLayer(polylineCulling: true, polylines: polylineLayers);
   }
@@ -144,27 +147,29 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Widget _map() {
-    return FlutterMap(
-      mapController: _mapController,
-      options: MapOptions(
-        onMapReady: onMapReady,
-        center: LatLng(47.509364, 19.128928),
-        zoom: 9,
-      ),
-      nonRotatedChildren: const [],
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'hu.adamfejes.stravafy',
+    return SafeArea(
+      child: FlutterMap(
+        mapController: _mapController,
+        options: MapOptions(
+          onMapReady: onMapReady,
+          center: LatLng(47.509364, 19.128928),
+          zoom: 9,
         ),
-        StreamBuilder<List<List<LatLng>>>(
-          initialData: null,
-          stream: _viewModel.polylinePoints,
-          builder: (context, polylines) {
-            return _getPolylineLayer(polylines.data);
-          },
-        )
-      ],
+        nonRotatedChildren: const [],
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'hu.adamfejes.stravafy',
+          ),
+          StreamBuilder<List<List<LatLng>>>(
+            initialData: null,
+            stream: _viewModel.polylinePoints,
+            builder: (context, polylines) {
+              return _getPolylineLayer(polylines.data);
+            },
+          )
+        ],
+      ),
     );
   }
 
