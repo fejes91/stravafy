@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 
 part 'activity.freezed.dart';
 part 'activity.g.dart';
@@ -8,7 +9,8 @@ class Activity with _$Activity {
   const factory Activity({
     required String id,
     required String name,
-    required String polyline,
+    required List<LatLng>
+        polylinePoints, // TODO handle activities without polyline
   }) = _Activity;
 
   factory Activity.fromJson(Map<String, dynamic> json) =>

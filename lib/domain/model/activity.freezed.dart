@@ -22,7 +22,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
 mixin _$Activity {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get polyline => throw _privateConstructorUsedError;
+  List<LatLng> get polylinePoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $ActivityCopyWith<$Res> {
   factory $ActivityCopyWith(Activity value, $Res Function(Activity) then) =
       _$ActivityCopyWithImpl<$Res, Activity>;
   @useResult
-  $Res call({String id, String name, String polyline});
+  $Res call({String id, String name, List<LatLng> polylinePoints});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? polyline = null,
+    Object? polylinePoints = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -64,10 +64,10 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      polyline: null == polyline
-          ? _value.polyline
-          : polyline // ignore: cast_nullable_to_non_nullable
-              as String,
+      polylinePoints: null == polylinePoints
+          ? _value.polylinePoints
+          : polylinePoints // ignore: cast_nullable_to_non_nullable
+              as List<LatLng>,
     ) as $Val);
   }
 }
@@ -79,7 +79,7 @@ abstract class _$$_ActivityCopyWith<$Res> implements $ActivityCopyWith<$Res> {
       __$$_ActivityCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String polyline});
+  $Res call({String id, String name, List<LatLng> polylinePoints});
 }
 
 /// @nodoc
@@ -95,7 +95,7 @@ class __$$_ActivityCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? polyline = null,
+    Object? polylinePoints = null,
   }) {
     return _then(_$_Activity(
       id: null == id
@@ -106,10 +106,10 @@ class __$$_ActivityCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      polyline: null == polyline
-          ? _value.polyline
-          : polyline // ignore: cast_nullable_to_non_nullable
-              as String,
+      polylinePoints: null == polylinePoints
+          ? _value._polylinePoints
+          : polylinePoints // ignore: cast_nullable_to_non_nullable
+              as List<LatLng>,
     ));
   }
 }
@@ -118,7 +118,10 @@ class __$$_ActivityCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Activity implements _Activity {
   const _$_Activity(
-      {required this.id, required this.name, required this.polyline});
+      {required this.id,
+      required this.name,
+      required final List<LatLng> polylinePoints})
+      : _polylinePoints = polylinePoints;
 
   factory _$_Activity.fromJson(Map<String, dynamic> json) =>
       _$$_ActivityFromJson(json);
@@ -127,12 +130,17 @@ class _$_Activity implements _Activity {
   final String id;
   @override
   final String name;
+  final List<LatLng> _polylinePoints;
   @override
-  final String polyline;
+  List<LatLng> get polylinePoints {
+    if (_polylinePoints is EqualUnmodifiableListView) return _polylinePoints;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_polylinePoints);
+  }
 
   @override
   String toString() {
-    return 'Activity(id: $id, name: $name, polyline: $polyline)';
+    return 'Activity(id: $id, name: $name, polylinePoints: $polylinePoints)';
   }
 
   @override
@@ -142,13 +150,14 @@ class _$_Activity implements _Activity {
             other is _$_Activity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.polyline, polyline) ||
-                other.polyline == polyline));
+            const DeepCollectionEquality()
+                .equals(other._polylinePoints, _polylinePoints));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, polyline);
+  int get hashCode => Object.hash(runtimeType, id, name,
+      const DeepCollectionEquality().hash(_polylinePoints));
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +177,7 @@ abstract class _Activity implements Activity {
   const factory _Activity(
       {required final String id,
       required final String name,
-      required final String polyline}) = _$_Activity;
+      required final List<LatLng> polylinePoints}) = _$_Activity;
 
   factory _Activity.fromJson(Map<String, dynamic> json) = _$_Activity.fromJson;
 
@@ -177,7 +186,7 @@ abstract class _Activity implements Activity {
   @override
   String get name;
   @override
-  String get polyline;
+  List<LatLng> get polylinePoints;
   @override
   @JsonKey(ignore: true)
   _$$_ActivityCopyWith<_$_Activity> get copyWith =>
